@@ -1,14 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-const { promisify } = require('util');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const { promisify } = require("util");
 
 // Promisify fs.writeFile for asynchronous usage
 const writeFileAsync = promisify(fs.writeFile);
 
 // 🔧 Project directory
 const projectRoot = process.cwd();
-const srcDir = path.join(projectRoot, 'src');
+const srcDir = path.join(projectRoot, "src");
 
 // 🔧 Utility functions
 function writeFileSmart(filePath, content, label) {
@@ -26,21 +26,22 @@ const packageJson = {
   version: "1.6.0",
   scripts: {
     generate: "node ./src/nopix_script.js",
-    watch: "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch",
+    watch:
+      "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch",
     nopix: "npm-run-all --parallel generate watch",
-    "update-browserslist": "npx update-browserslist-db@latest"
+    "update-browserslist": "npx update-browserslist-db@latest",
   },
   devDependencies: {
     "@tailwindcss/postcss": "^4.1.3",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.3"
-  }
+    postcss: "^8.5.3",
+    tailwindcss: "^4.1.3",
+  },
 };
 writeFileSmart(
-  path.join(projectRoot, 'package.json'),
+  path.join(projectRoot, "package.json"),
   JSON.stringify(packageJson, null, 2),
-  'package.json'
+  "package.json"
 );
 
 // 🔧 Create tailwind.config.js
@@ -52,9 +53,9 @@ const tailwindConfig = `module.exports = {
   plugins: []
 };`;
 writeFileSmart(
-  path.join(projectRoot, 'tailwind.config.js'),
+  path.join(projectRoot, "tailwind.config.js"),
   tailwindConfig,
-  'tailwind.config.js'
+  "tailwind.config.js"
 );
 
 // 🔧 Create postcss.config.mjs
@@ -65,17 +66,17 @@ const postcssConfig = `export default {
   }
 };`;
 writeFileSmart(
-  path.join(projectRoot, 'postcss.config.mjs'),
+  path.join(projectRoot, "postcss.config.mjs"),
   postcssConfig,
-  'postcss.config.mjs'
+  "postcss.config.mjs"
 );
 
 // 📁 Create /src directory
 if (!fs.existsSync(srcDir)) {
   fs.mkdirSync(srcDir, { recursive: true });
-  console.log('✅ src directory created successfully! 📁🎉');
+  console.log("✅ src directory created successfully! 📁🎉");
 } else {
-  console.log('🔁 src directory already exists. 😐');
+  console.log("🔁 src directory already exists. 😐");
 }
 
 // 🔧 input.css (in src/)
@@ -95,11 +96,7 @@ background-image: linear-gradient(158deg, rgba(84, 84, 84, 0.03) 0%, rgba(84, 84
  }
 
 `;
-writeFileSmart(
-  path.join(srcDir, 'input.css'),
-  inputCss,
-  'src/input.css'
-);
+writeFileSmart(path.join(srcDir, "input.css"), inputCss, "src/input.css");
 
 // 🔧 welcome.html (in projectRoot/)
 const welcomeHtml = `<!DOCTYPE html>
@@ -107,7 +104,7 @@ const welcomeHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="../src/output.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
   <title>NoPiX for Tailwind</title>
 </head>
 <body class="bg-black text-zinc-100 font-sans min-h-screen overflow-auto flex justify-center items-start mt-5rem">
@@ -160,9 +157,9 @@ const welcomeHtml = `<!DOCTYPE html>
 </body>
 </html>`;
 writeFileSmart(
-  path.join(projectRoot, 'welcome.html'),
+  path.join(projectRoot, "welcome.html"),
   welcomeHtml,
-  'welcome.html'
+  "welcome.html"
 );
 
 // 🔧 Create prefixes.js
@@ -206,7 +203,7 @@ const prefixesJs = `const properties = [
   { prefix: 'mb-', cssProperty: 'margin-bottom', variablePrefix: 'marginBottom', requiresRemAdjustment: true },
   { prefix: 'ml-', cssProperty: 'margin-left', variablePrefix: 'marginLeft', requiresRemAdjustment: true },
   { prefix: 'mr-', cssProperty: 'margin-right', variablePrefix: 'marginRight', requiresRemAdjustment: true },
-  { prefix: 'w-', cssProperty: 'width', variablePrefix: 'width', requiresRemAdjustment: 'true' },
+  { prefix: 'w-', cssProperty: 'width', variablePrefix: 'width', requiresRemAdjustment: true },
   { prefix: 'h-', cssProperty: 'height', variablePrefix: 'height', requiresRemAdjustment: true },
   { prefix: 'min-w-', cssProperty: 'min-width', variablePrefix: 'minWidth', requiresRemAdjustment: true },
   { prefix: 'max-w-', cssProperty: 'max-width', variablePrefix: 'maxWidth', requiresRemAdjustment: true },
@@ -215,6 +212,7 @@ const prefixesJs = `const properties = [
   { prefix: 'gap-', cssProperty: 'gap', variablePrefix: 'gap', requiresRemAdjustment: true },
   { prefix: 'col-gap-', cssProperty: 'column-gap', variablePrefix: 'columnGap', requiresRemAdjustment: true },
   { prefix: 'row-gap-', cssProperty: 'row-gap', variablePrefix: 'rowGap', requiresRemAdjustment: true },
+  { prefix: 'size-', cssProperty: 'size', variablePrefix: 'size', requiresRemAdjustment: true },
 
   // Borders and Shadows
   { prefix: 'border-', cssProperty: 'border-width', variablePrefix: 'borderWidth', requiresRemAdjustment: true },
@@ -311,13 +309,10 @@ const prefixesJs = `const properties = [
   { prefix: 'container-name-', cssProperty: 'container-name', variablePrefix: 'containerName', requiresRemAdjustment: false },
   { prefix: 'content-', cssProperty: 'content', variablePrefix: 'content', requiresRemAdjustment: false },
   { prefix: 'counter-increment-', cssProperty: 'counter-increment', variablePrefix: 'counterIncrement', requiresRemAdjustment: false }
-`;
+]
+  module.exports = properties;`;
 
-writeFileSmart(
-  path.join(srcDir, 'prefixes.js'),
-  prefixesJs,
-  'src/prefixes.js'
-);
+writeFileSmart(path.join(srcDir, "prefixes.js"), prefixesJs, "src/prefixes.js");
 
 // 🔧 Create nopix_theme.css
 const nopixThemeCss = `:root {
@@ -326,17 +321,17 @@ const nopixThemeCss = `:root {
 }
 `;
 writeFileSmart(
-  path.join(srcDir, 'nopix_theme.css'),
+  path.join(srcDir, "nopix_theme.css"),
   nopixThemeCss,
-  'src/nopix_theme.css'
+  "src/nopix_theme.css"
 );
 
 // 🔧 Create nopix_prefix.css
 const nopixPrefixCss = `/* Utilities generated by nopix_script.js */`;
 writeFileSmart(
-  path.join(srcDir, 'nopix_prefix.css'),
+  path.join(srcDir, "nopix_prefix.css"),
   nopixPrefixCss,
-  'src/nopix_prefix.css'
+  "src/nopix_prefix.css"
 );
 
 // 🔧 Create nopix_script.js
@@ -632,31 +627,38 @@ function watchHtmlFiles() {
   }, 10000);
 }
 
+delete require.cache[require.resolve('./prefixes.js')];
+properties = require('./prefixes.js');
+
 // Initial execution and start watching
 updateCssFiles().then(() => {
   watchHtmlFiles();
 });
 `;
+
 writeFileSmart(
-  path.join(srcDir, 'nopix_script.js'),
+  path.join(srcDir, "nopix_script.js"),
   nopixScriptJs,
-  'src/nopix_script.js'
+  "src/nopix_script.js"
 );
 
 // 📦 Install dependencies
 try {
-  console.log('📦 Installing Tailwind CSS, PostCSS, and npm-run-all... ⏳');
-  execSync('npm install --save-dev @tailwindcss/postcss tailwindcss postcss npm-run-all', { stdio: 'inherit' });
-  console.log('✅ Dependencies installed successfully! 🎉');
+  console.log("📦 Installing Tailwind CSS, PostCSS, and npm-run-all... ⏳");
+  execSync(
+    "npm install --save-dev @tailwindcss/postcss tailwindcss postcss npm-run-all",
+    { stdio: "inherit" }
+  );
+  console.log("✅ Dependencies installed successfully! 🎉");
 } catch (err) {
-  console.error('❌ Error during dependency installation: 😞', err.message);
+  console.error("❌ Error during dependency installation: 😞", err.message);
   process.exit(1);
 }
 
-console.log('🚀 Setup complete! Ready to code with NoPiX Tailwind! 🎉');
-console.log('📋 Next steps:');
-console.log('1. Update Browserslist:');
-console.log('   npm run update-browserslist');
-console.log('2. Run:');
-console.log('   npm run nopix 🚀');
+console.log("🚀 Setup complete! Ready to code with NoPiX Tailwind! 🎉");
+console.log("📋 Next steps:");
+console.log("1. Update Browserslist:");
+console.log("   npm run update-browserslist");
+console.log("2. Run:");
+console.log("   npm run nopix 🚀");
 console.log('   (This will run "generate" and "watch" in parallel)');
